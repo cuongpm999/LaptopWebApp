@@ -37,7 +37,8 @@
             	</#if>
               <br><#if bill.userInfo.phonenumber??>${bill.userInfo.phonenumber }</#if><br>
               <#if bill.userInfo.email??>${bill.userInfo.email }</#if><br>
-              <#if bill.userInfo.address??>${bill.userInfo.address }</#if>
+              <#if bill.userInfo.address??>${bill.userInfo.address }</#if><br>
+              ${bill.shipment.name }&emsp;${bill.shipment.price }
             </p>
           </div>
           <div style="width: 50%;text-align: right;padding-right: 15px;margin-bottom: 15px;">

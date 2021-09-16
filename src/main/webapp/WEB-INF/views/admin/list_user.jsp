@@ -134,10 +134,7 @@
 								<tbody id="myTable">
 									<c:forEach var="user" items="${user }">
 										<tr>
-											<td><c:choose>
-													<c:when test="${not empty user.fullname }">${user.fullname }</c:when>
-													<c:when test="${empty user.fullname }">${user.username }</c:when>
-												</c:choose></td>
+											<td>${user.fullname }</td>
 											<td>${user.email }</td>
 											<td>${user.phonenumber }</td>
 											<td>${user.username }</td>
