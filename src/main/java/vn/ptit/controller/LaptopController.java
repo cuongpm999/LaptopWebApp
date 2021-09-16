@@ -389,6 +389,7 @@ public class LaptopController {
 			httpSession.setAttribute("soLuongMua", 0);
 			httpSession.setAttribute("tongTien", 0);
 			httpSession.setAttribute("bill", null);
+			httpSession.setAttribute("address", null);
 		}
 
 		return "shop_cart";
@@ -435,6 +436,7 @@ public class LaptopController {
 				httpSession.setAttribute("soLuongMua", 0);
 				httpSession.setAttribute("tongTien", 0);
 				httpSession.setAttribute("bill", null);
+				httpSession.setAttribute("address", null);
 				return "shop_cart";
 			}
 		} catch (PayPalRESTException e) {

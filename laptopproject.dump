@@ -405,12 +405,12 @@ CREATE TABLE public.tbl_total_visit (
 CREATE TABLE public.tbl_user (
     id integer NOT NULL,
     username character varying(100) NOT NULL,
-    password character varying(100) NOT NULL,
-    fullname character varying(100) NOT NULL,
-    phonenumber character varying(100) NOT NULL,
+    password character varying(100),
+    fullname character varying(100),
+    phonenumber character varying(100),
     email character varying(100) NOT NULL,
     status boolean,
-    address character varying(100) NOT NULL
+    address character varying(100)
 );
 
 
@@ -972,7 +972,7 @@ COPY public.tbl_shipment (id, name, price, mobile, status) FROM stdin;
 --
 
 COPY public.tbl_total_visit (id, total) FROM stdin;
-1	12839
+1	12850
 \.
 
 
