@@ -56,8 +56,7 @@
 							<td class="ten-sdt"><c:choose>
 									<c:when test="${not empty bill.userInfo.fullname }">${bill.userInfo.fullname }</c:when>
 									<c:when test="${empty bill.userInfo.fullname }">${bill.userInfo.username }</c:when>
-								</c:choose> &ensp;<c:if test="${not empty bill.userInfo.phonenumber }">${bill.userInfo.phonenumber }</c:if>
-							</td>
+								</c:choose>&ensp;${bill.userInfo.phonenumber }</td>
 							<td style="text-align: right;">${bill.userInfo.address }</td>
 						</tr>
 					</tbody>

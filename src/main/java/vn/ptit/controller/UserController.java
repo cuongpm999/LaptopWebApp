@@ -240,7 +240,8 @@ public class UserController {
 
 		Boolean flag = false;
 		for (int i = 0; i < userInfoRepository.findAll().size(); i++) {
-			if (googlePojo.getEmail().compareTo(userInfoRepository.findAll().get(i).getUsername()) == 0) {
+			if ((googlePojo.getEmail() + "@gmail.com")
+					.compareTo(userInfoRepository.findAll().get(i).getUsername()) == 0) {
 				flag = true;
 				break;
 			}
@@ -250,6 +251,7 @@ public class UserController {
 			UserInfo userInfo = new UserInfo();
 			userInfo.setUsername(googlePojo.getEmail() + "@gmail.com");
 			userInfo.setEmail(googlePojo.getEmail() + "@gmail.com");
+			userInfo.setStatus(true);
 			userInfoRepository.save(userInfo);
 		}
 
@@ -285,6 +287,7 @@ public class UserController {
 			userInfo.setUsername(user.getEmail());
 			userInfo.setFullname(user.getName());
 			userInfo.setEmail(user.getEmail());
+			userInfo.setStatus(true);
 			userInfoRepository.save(userInfo);
 		}
 

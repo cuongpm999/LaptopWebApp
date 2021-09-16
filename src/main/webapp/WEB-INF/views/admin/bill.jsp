@@ -104,8 +104,7 @@
 										<img class="icon" alt="user"
 											src="/files_users/${userDis.userAttachment.name }">
 									</c:when>
-								</c:choose>
-								<span class="text-icon">${userDis.username }</span>
+								</c:choose> <span class="text-icon">${userDis.username }</span>
 						</a>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="/user-details"><i
@@ -159,7 +158,10 @@
 						<div class="row congty_hoadon">
 							<ul class="list-unstyled">
 								<li><span class="chuthich">Họ tên khách hàng:</span> <span
-									class="tenkhach" style="margin-left: 45px;">${hoa_don.userInfo.fullname }</span></li>
+									class="tenkhach" style="margin-left: 45px;"><c:choose>
+											<c:when test="${not empty hoa_don.userInfo.fullname }">${hoa_don.userInfo.fullname }</c:when>
+											<c:when test="${empty hoa_don.userInfo.fullname }">${hoa_don.userInfo.username }</c:when>
+										</c:choose></span></li>
 								<li><span class="chuthich">Email:</span> <span
 									class="thongtin" style="margin-left: 155px;">${hoa_don.userInfo.email }</span></li>
 								<li><span class="chuthich">Điện thoại:</span> <span
@@ -170,8 +172,9 @@
 									class="thongtin" style="margin-left: 25px;">${hoa_don.payment.payment_type }</span></li>
 								<li><span class="chuthich">Đơn vị vận chuyển:</span> <span
 									class="thongtin" style="margin-left: 50px;">${hoa_don.shipment.name }&emsp;<fmt:formatNumber
-										type="number" maxFractionDigits="3"
-										value="${hoa_don.shipment.price }" /> Đ</span></li>
+											type="number" maxFractionDigits="3"
+											value="${hoa_don.shipment.price }" /> Đ
+								</span></li>
 							</ul>
 							<hr>
 
@@ -188,8 +191,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="cart"
-										items="${hoa_don.boughtLaptops }">
+									<c:forEach var="cart" items="${hoa_don.boughtLaptops }">
 										<tr>
 											<td class="tensanpham">
 												<div class="row">
@@ -200,16 +202,16 @@
 													</div>
 													<div class="col-md-7">
 														<h5>${item_hoadons.tenLaptop }</h5>
-														<span>Loại sản phẩm: </span>${cart.laptop.name }
-														<br>
+														<span>Loại sản phẩm: </span>${cart.laptop.name } <br>
 													</div>
 
 												</div>
 											</td>
-											<td><fmt:formatNumber type="number" maxFractionDigits="3"
-													value="${cart.laptop.price }" />&nbsp;Đ</td>
+											<td><fmt:formatNumber type="number"
+													maxFractionDigits="3" value="${cart.laptop.price }" />&nbsp;Đ</td>
 											<td>${cart.amount }</td>
-											<td><fmt:formatNumber type="number" maxFractionDigits="3"
+											<td><fmt:formatNumber type="number"
+													maxFractionDigits="3"
 													value="${cart.amount*cart.laptop.price }" />&nbsp;Đ</td>
 										</tr>
 									</c:forEach>
@@ -217,9 +219,9 @@
 							</table>
 							<div class="card-body" style="text-align: right;">
 								<div class="tongtienthanhtoan">
-									Tổng tiền đơn hàng : <strong><span id="total_value"><fmt:formatNumber type="number" maxFractionDigits="3"
-													value="${hoa_don.payment.all_money }" />
-									</span> Đ</strong>
+									Tổng tiền đơn hàng : <strong><span id="total_value"><fmt:formatNumber
+												type="number" maxFractionDigits="3"
+												value="${hoa_don.payment.all_money }" /> </span> Đ</strong>
 								</div>
 							</div>
 						</div>

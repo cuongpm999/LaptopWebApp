@@ -317,7 +317,7 @@ public class LaptopController {
 		HttpSession httpSession = request.getSession();
 		if (httpSession.getAttribute("googleAcc") != null) {
 			GooglePojo googlePojo = (GooglePojo) httpSession.getAttribute("googleAcc");
-			userInfo = userService.loadUserByUsername(googlePojo.getEmail());
+			userInfo = userService.loadUserByUsername(googlePojo.getEmail()+"@gmail.com");
 		} else if (httpSession.getAttribute("faceAcc") != null) {
 			com.restfb.types.User user = (com.restfb.types.User) httpSession.getAttribute("faceAcc");
 			userInfo = userService.loadUserByUsername(user.getEmail());

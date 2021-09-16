@@ -102,8 +102,7 @@
 										<img class="icon" alt="user"
 											src="/files_users/${userDis.userAttachment.name }">
 									</c:when>
-								</c:choose>
-								<span class="text-icon">${userDis.username }</span>
+								</c:choose> <span class="text-icon">${userDis.username }</span>
 						</a>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="/user-details"><i
@@ -136,7 +135,10 @@
 								<tbody id="myTable">
 									<c:forEach var="list_hoadons" items="${hoadons }">
 										<tr>
-											<td width="200px;">${list_hoadons.userInfo.fullname }</td>
+											<td width="200px;"><c:choose>
+													<c:when test="${not empty list_hoadons.userInfo.fullname }">${list_hoadons.userInfo.fullname }</c:when>
+													<c:when test="${empty list_hoadons.userInfo.fullname }">${list_hoadons.userInfo.username }</c:when>
+												</c:choose></td>
 											<td>${list_hoadons.userInfo.email }</td>
 											<td>${list_hoadons.userInfo.phonenumber }</td>
 											<td width="250px;">${list_hoadons.userInfo.address }</td>
