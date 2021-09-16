@@ -30,10 +30,14 @@
         <div style="width: 100%;display: flex;">
           <div style="width: 50%;text-align: left;padding-left: 15px;margin-bottom: 15px;">
             <h4><b>Đến</b></h4>
-            <p>${bill.userInfo.fullname }
-              <br>${bill.userInfo.phonenumber }<br>
-              ${bill.userInfo.email }<br>
-              ${bill.userInfo.address }
+            <p><#if bill.userInfo.fullname??>
+            		${bill.userInfo.fullname }
+            	<#else>
+            		${bill.userInfo.username }
+            	</#if>
+              <br><#if bill.userInfo.phonenumber??>${bill.userInfo.phonenumber }</#if><br>
+              <#if bill.userInfo.email??>${bill.userInfo.email }</#if><br>
+              <#if bill.userInfo.address??>${bill.userInfo.address }</#if>
             </p>
           </div>
           <div style="width: 50%;text-align: right;padding-right: 15px;margin-bottom: 15px;">
