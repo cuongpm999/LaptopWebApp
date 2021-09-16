@@ -41,7 +41,7 @@ public class RestFB {
 	public com.restfb.types.User getUserInfo(final String accessToken, final HttpServletRequest request) {
 		FacebookClient facebookClient = new DefaultFacebookClient(accessToken, env.getProperty("facebook.app.secret"),
 				Version.LATEST);
-		com.restfb.types.User user = facebookClient.fetchObject("me", com.restfb.types.User.class,Parameter.with("fields", "id,name,picture"));
+		com.restfb.types.User user = facebookClient.fetchObject("me", com.restfb.types.User.class,Parameter.with("fields", "id,name,picture,email"));
 		request.getSession().setAttribute("faceAcc", user);
 		return user;
 	}

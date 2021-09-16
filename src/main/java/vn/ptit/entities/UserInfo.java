@@ -28,22 +28,22 @@ public class UserInfo extends BaseEntity implements UserDetails{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "username", length = 100, nullable = false)
+	@Column(name = "username", length = 100, nullable = true)
 	private String username;
 	
-	@Column(name = "password", length = 100, nullable = false)
+	@Column(name = "password", length = 100, nullable = true)
 	private String password;
 	
-	@Column(name = "fullname", length = 100, nullable = false)
+	@Column(name = "fullname", length = 100, nullable = true)
 	private String fullname;
 	
-	@Column(name = "phonenumber", length = 100, nullable = false)
+	@Column(name = "phonenumber", length = 100, nullable = true)
 	private String phonenumber;
 	
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
 	
-	@Column(name = "address", length = 100, nullable = false)
+	@Column(name = "address", length = 100, nullable = true)
 	private String address;
 	
 	@Column(name = "status", nullable = true)

@@ -237,6 +237,22 @@ public class UserController {
 		String accessToken = googleUtils.getToken(code);
 
 		GooglePojo googlePojo = googleUtils.getUserInfo(accessToken, request);
+		
+		Boolean flag = false;
+		for (int i = 0; i < userInfoRepository.findAll().size(); i++) {
+			if (googlePojo.getEmail().compareTo(userInfoRepository.findAll().get(i).getUsername()) == 0) {
+				flag = true;
+				break;
+			}
+		}
+		
+		if(!flag) {
+			UserInfo userInfo = new UserInfo();
+			userInfo.setUsername(googlePojo.getEmail());
+			userInfo.setEmail(googlePojo.getEmail());
+			userInfoRepository.save(userInfo);
+		}
+		
 		UserDetails userDetail = googleUtils.buildUser(googlePojo);
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
 				userDetail.getAuthorities());
@@ -255,6 +271,23 @@ public class UserController {
 		String accessToken = restFb.getToken(code);
 
 		com.restfb.types.User user = restFb.getUserInfo(accessToken, request);
+		
+		Boolean flag = false;
+		for (int i = 0; i < userInfoRepository.findAll().size(); i++) {
+			if (user.getEmail().compareTo(userInfoRepository.findAll().get(i).getUsername()) == 0) {
+				flag = true;
+				break;
+			}
+		}
+		
+		if(!flag) {
+			UserInfo userInfo = new UserInfo();
+			userInfo.setUsername(user.getEmail());
+			userInfo.setFullname(user.getName());
+			userInfo.setEmail(user.getEmail());
+			userInfoRepository.save(userInfo);
+		}
+		
 		UserDetails userDetail = restFb.buildUser(user);
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
 				userDetail.getAuthorities());
