@@ -47,12 +47,18 @@
 		<h4 class="tieude-tp">THANH TOÁN</h4>
 		<div class="row card">
 			<div class="thong-tin-khach">
-				<h5 style="color: orange;"><i class="fas fa-map-marker-alt"></i> Địa chỉ nhận hàng</h5>
+				<h5 style="color: orange;">
+					<i class="fas fa-map-marker-alt"></i> Địa chỉ nhận hàng
+				</h5>
 				<table class="table table-borderless" style="margin-bottom: 0">
 					<tbody>
 						<tr>
-							<td class="ten-sdt">${bill.userInfo.fullname }&ensp;${bill.userInfo.phonenumber }</td>
-							<td>${bill.userInfo.address }</td>
+							<td class="ten-sdt"><c:choose>
+									<c:when test="${not empty bill.userInfo.fullname }">${bill.userInfo.fullname }</c:when>
+									<c:when test="${empty bill.userInfo.fullname }">${bill.userInfo.username }</c:when>
+								</c:choose> &ensp;<c:if test="${not empty bill.userInfo.phonenumber }">${bill.userInfo.phonenumber }</c:if>
+							</td>
+							<td style="text-align: right;">${bill.userInfo.address }</td>
 						</tr>
 					</tbody>
 				</table>
@@ -137,8 +143,8 @@
 					</tbody>
 				</table>
 				<div class="new-cart-button" style="margin-top: 10px;">
-					<a href="/cart/checkout/finish" class="btn btn-dark" style="width: 100%">
-						Đặt hàng</a>
+					<a href="/cart/checkout/finish" class="btn btn-dark"
+						style="width: 100%"> Đặt hàng</a>
 				</div>
 			</div>
 		</div>

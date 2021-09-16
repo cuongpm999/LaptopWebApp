@@ -25,6 +25,8 @@
 <!-- CSS & JAVA_SCRIPT -->
 <%@ include file="/WEB-INF/views/layout/includer.jsp"%>
 <link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/form.css">
+<link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/giohang.css">
 <!-- ----------------- -->
 
@@ -177,6 +179,20 @@
 					</div>
 				</div>
 				<div class="col-md-4">
+					<div class="form-group">
+						<c:choose>
+							<c:when test="${status=='faileAddress'}">
+								<div class="alert alert-danger">
+									<strong>Faile!</strong> Địa chỉ không được để trống
+								</div>
+							</c:when>
+						</c:choose>
+						<div class="form-group lienhe">
+							<label class="required">Địa chỉ giao hàng:</label> <input
+								type="text" class="form-control"
+								placeholder="Nhập địa chỉ giao hàng" name="address">
+						</div>
+					</div>
 					<c:choose>
 						<c:when test="${empty giohang }">
 							<button type="submit" class="btn btn-success btn-thanh-toan"

@@ -45,6 +45,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
 import vn.ptit.beans.FilterMap;
+import vn.ptit.beans.GooglePojo;
 import vn.ptit.entities.Bill;
 import vn.ptit.entities.BoughtLaptop;
 import vn.ptit.entities.Laptop;
@@ -54,6 +55,7 @@ import vn.ptit.repositories.BillRepository;
 import vn.ptit.repositories.BannerRepository;
 import vn.ptit.repositories.LaptopManufacturerRepository;
 import vn.ptit.repositories.LaptopRepository;
+import vn.ptit.repositories.UserInfoRepository;
 import vn.ptit.services.LaptopService;
 import vn.ptit.services.PaypalService;
 import vn.ptit.services.ShipmentService;
@@ -81,6 +83,7 @@ public class LaptopController {
 	PaypalService service;
 	@Autowired
 	ShipmentService shipmentService;
+	@Autowired UserInfoRepository userInfoRepository;
 
 	@RequestMapping(value = { "/item-details/{laptopSeo}" }, method = { RequestMethod.GET })
 	public String laptop_details(@PathVariable String laptopSeo, final ModelMap model, final HttpServletRequest request,
@@ -260,9 +263,15 @@ public class LaptopController {
 		// must have
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
+		model.addAttribute("listShipment", shipmentService.findAllShipment());
 
 		HttpSession httpSession = request.getSession();
 
+		String address = request.getParameter("address");
+		if (address.isEmpty()) {
+			model.addAttribute("status", "faileAddress");
+			return "shop_cart";
+		}
 		String paymentType = request.getParameter("paymentType");
 		int shipmentId = Integer.parseInt(request.getParameter("shipmentId"));
 		Shipment shipment = shipmentService.findShipmentById(shipmentId);
@@ -290,6 +299,7 @@ public class LaptopController {
 		bill.setStatus(true);
 
 		httpSession.setAttribute("bill", bill);
+		httpSession.setAttribute("address", address);
 
 		return "redirect:/cart/checkout/view";
 	}
@@ -302,9 +312,21 @@ public class LaptopController {
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
 
-		UserInfo userInfo = userService.loadUserByUsername(request.getRemoteUser());
+		UserInfo userInfo = new UserInfo();
 
 		HttpSession httpSession = request.getSession();
+		if (httpSession.getAttribute("googleAcc") != null) {
+			GooglePojo googlePojo = (GooglePojo) httpSession.getAttribute("googleAcc");
+			userInfo = userService.loadUserByUsername(googlePojo.getEmail());
+		} else if (httpSession.getAttribute("faceAcc") != null) {
+			com.restfb.types.User user = (com.restfb.types.User) httpSession.getAttribute("faceAcc");
+			userInfo = userService.loadUserByUsername(user.getEmail());
+		} else {
+			userInfo = userService.loadUserByUsername(request.getRemoteUser());
+		}
+		userInfo.setAddress((String) httpSession.getAttribute("address"));
+		userInfoRepository.save(userInfo);
+		
 		Bill bill = new Bill();
 		if (httpSession.getAttribute("bill") != null) {
 			bill = (Bill) httpSession.getAttribute("bill");
