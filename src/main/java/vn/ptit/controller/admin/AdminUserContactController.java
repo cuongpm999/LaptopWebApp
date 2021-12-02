@@ -93,7 +93,7 @@ public class AdminUserContactController {
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
 
-		model.addAttribute("user", userInfoRepository.findAll());
+		model.addAttribute("user", userInfoRepository.findByStatus(true));
 
 		return "admin/list_user";
 	}

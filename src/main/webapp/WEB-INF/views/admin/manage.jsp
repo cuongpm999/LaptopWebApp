@@ -40,54 +40,7 @@
 
 	<!-- MAIN -->
 	<div id="main">
-		<div class="sidebar">
-			<div class="sidebar-inner">
-				<div class="sidebar-logo">
-					<a class="sidebar-link" href="/"> <img class="icon"
-						src="/img/logo.png">
-						<h5 class="logo-text">Admin Manage</h5>
-					</a>
-				</div>
-
-				<nav class="navbar scrollbar" id="style-1">
-					<ul class="navbar-nav">
-						<li class="nav-item"><a class="nav-link" href="/admin/manage"><i
-								class="fas fa-home"></i>Dashboard</a></li>
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbardrop"
-							data-toggle="dropdown"><i class="fas fa-list"></i>Tables</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="/admin/list-user">Account</a> <a
-									class="dropdown-item" href="/admin/list-banner">Banner</a> <a
-									class="dropdown-item" href="/admin/list-contact">Contact</a> <a
-									class="dropdown-item" href="/admin/list-laptop">Laptop</a> <a
-									class="dropdown-item" href="/admin/list-bill">Bill</a>
-							</div></li>
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbardrop"
-							data-toggle="dropdown"><i class="fas fa-pencil-alt"></i></i>Forms</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="/admin/add-laptop">Laptop</a> <a
-									class="dropdown-item" href="/admin/add-banner">Banner</a>
-							</div></li>
-						<li class="nav-item"><a class="nav-link" href="#"><i
-								class="fas fa-envelope"></i>Email</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"><i
-								class="fas fa-map"></i>Maps</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"><i
-								class="far fa-comment-dots"></i>Chat</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"><i
-								class="far fa-calendar-alt"></i>Calendar</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"><i
-								class="fas fa-chart-bar"></i>Charts</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"><i
-								class="far fa-copy"></i>Pages</a></li>
-
-					</ul>
-
-				</nav>
-			</div>
-		</div>
+		<%@ include file="/WEB-INF/views/admin/admin_header.jsp"%>
 		<div class="page-container">
 			<div class="header-container">
 				<nav class="navbar">
@@ -102,8 +55,7 @@
 										<img class="icon" alt="user"
 											src="/files_users/${userDis.userAttachment.name }">
 									</c:when>
-								</c:choose>
-								<span class="text-icon">${userDis.username }</span>
+								</c:choose> <span class="text-icon">${userDis.username }</span>
 						</a>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="/user-details"><i
@@ -201,13 +153,13 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="listProductRP" items="${listProductRP }">
-									<tr>
-										<td>${listProductRP.nameProduct }</td>
-										<td>${listProductRP.amount }</td>										
-									</tr>
+									<c:forEach var="listProductRP" items="${listProductRP }">
+										<tr>
+											<td>${listProductRP.name }</td>
+											<td>${listProductRP.quantity }</td>
+										</tr>
 									</c:forEach>
-							
+
 								</tbody>
 							</table>
 						</div>

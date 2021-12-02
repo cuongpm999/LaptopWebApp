@@ -46,21 +46,13 @@
 	<div class="container giohang">
 		<h4 class="tieude-tp">THANH TOÁN</h4>
 		<div class="row card">
-			<div class="thong-tin-khach">
-				<h5 style="color: orange;">
+			<div class="thong-tin-khach" style="margin-bottom: 10px;">
+				<h5 style="color: orange; margin-bottom: 20px;">
 					<i class="fas fa-map-marker-alt"></i> Địa chỉ nhận hàng
 				</h5>
-				<table class="table table-borderless" style="margin-bottom: 0">
-					<tbody>
-						<tr>
-							<td class="ten-sdt"><c:choose>
-									<c:when test="${not empty bill.userInfo.fullname }">${bill.userInfo.fullname }</c:when>
-									<c:when test="${empty bill.userInfo.fullname }">${bill.userInfo.username }</c:when>
-								</c:choose>&ensp;${bill.userInfo.phonenumber }</td>
-							<td style="text-align: right;">${bill.userInfo.address }</td>
-						</tr>
-					</tbody>
-				</table>
+				<div style="display: flex;">
+					<span class="name-mobile">${bill.userInfo.fullname }&ensp;${bill.userInfo.phonenumber }</span><span class="address">${bill.userInfo.address }</span>
+				</div>
 			</div>
 			<table class="table">
 				<thead class="thead-light">

@@ -21,20 +21,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.ptit.beans.CartUtils;
-import vn.ptit.beans.ChartReport;
-import vn.ptit.beans.ReportUtils;
 import vn.ptit.entities.AjaxResponse;
 import vn.ptit.entities.Bill;
 import vn.ptit.entities.BoughtLaptop;
 import vn.ptit.entities.Laptop;
+import vn.ptit.entities.LaptopManufacturer;
+import vn.ptit.entities.Shipment;
+import vn.ptit.entities.UserInfo;
 import vn.ptit.repositories.ContactRepository;
 import vn.ptit.repositories.BillRepository;
 import vn.ptit.repositories.BannerRepository;
 import vn.ptit.repositories.LaptopManufacturerRepository;
 import vn.ptit.repositories.LaptopRepository;
+import vn.ptit.repositories.ShipmentRepository;
 import vn.ptit.repositories.UserInfoRepository;
 import vn.ptit.services.LaptopService;
+import vn.ptit.utils.CartUtils;
+import vn.ptit.utils.ChartReport;
+import vn.ptit.utils.ReportUtils;
 
 @RestController
 @RequestMapping("/rest/api")
@@ -52,6 +56,7 @@ public class AjaxController {
 	UserInfoRepository userInfoRepository;
 	@Autowired BillRepository hoaDonRepository;
 	@Autowired BannerRepository idBannerRepository;
+	@Autowired ShipmentRepository shipmentRepository;
 
 	@PostMapping(value = "/cart/addToCart")
 	public ResponseEntity<AjaxResponse> addToCart(@RequestBody final Map<String, Object> data, final ModelMap model,
@@ -126,7 +131,9 @@ public class AjaxController {
 	public ResponseEntity<AjaxResponse> carsDelete(@RequestBody final Map<String, Object> data, final ModelMap model,
 			final HttpServletRequest request, final HttpServletResponse response) {
 		Integer entityId = (Integer) data.get("entityId");
-		laptopRepository.deleteById(entityId);
+		Laptop laptop = laptopRepository.findById(entityId).get();
+		laptop.setStatus(false);
+		laptopRepository.save(laptop);
 		return ResponseEntity.ok(new AjaxResponse(69, data));
 	}
 	
@@ -134,7 +141,9 @@ public class AjaxController {
 	public ResponseEntity<AjaxResponse> userDelete(@RequestBody final Map<String, Object> data, final ModelMap model,
 			final HttpServletRequest request, final HttpServletResponse response) {
 		Integer entityId = (Integer) data.get("entityId");
-		userInfoRepository.deleteById(entityId);
+		UserInfo userInfo = userInfoRepository.findById(entityId).get();
+		userInfo.setStatus(false);
+		userInfoRepository.save(userInfo);
 		return ResponseEntity.ok(new AjaxResponse(69, data));
 	}
 	
@@ -143,6 +152,28 @@ public class AjaxController {
 			final HttpServletRequest request, final HttpServletResponse response) {
 		Integer entityId = (Integer) data.get("entityId");
 		idBannerRepository.deleteById(entityId);
+		return ResponseEntity.ok(new AjaxResponse(69, data));
+	}
+	
+	@PostMapping(value = "/manufacturer/delete")
+	public ResponseEntity<AjaxResponse> manufacturerDelete(@RequestBody final Map<String, Object> data, final ModelMap model,
+			final HttpServletRequest request, final HttpServletResponse response) {
+		Integer entityId = (Integer) data.get("entityId");
+		LaptopManufacturer laptopManufacturer = laptopManufacturerRepository.findById(entityId).get();
+		laptopManufacturer.setStatus(false);
+		laptopManufacturerRepository.save(laptopManufacturer);
+		
+		return ResponseEntity.ok(new AjaxResponse(69, data));
+	}
+	
+	@PostMapping(value = "/shipment/delete")
+	public ResponseEntity<AjaxResponse> shipmentDelete(@RequestBody final Map<String, Object> data, final ModelMap model,
+			final HttpServletRequest request, final HttpServletResponse response) {
+		Integer entityId = (Integer) data.get("entityId");
+		Shipment shipment = shipmentRepository.findById(entityId).get();
+		shipment.setStatus(false);
+		shipmentRepository.save(shipment);
+		
 		return ResponseEntity.ok(new AjaxResponse(69, data));
 	}
 

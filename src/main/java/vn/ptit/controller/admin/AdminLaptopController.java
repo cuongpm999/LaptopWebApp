@@ -30,11 +30,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
-import vn.ptit.beans.ProductReport;
-import vn.ptit.beans.Utilities;
 import vn.ptit.entities.Bill;
 import vn.ptit.entities.Laptop;
 import vn.ptit.entities.LaptopAttachment;
+import vn.ptit.entities.LaptopStat;
 import vn.ptit.entities.UserInfo;
 import vn.ptit.repositories.BillRepository;
 import vn.ptit.repositories.LaptopManufacturerRepository;
@@ -43,6 +42,7 @@ import vn.ptit.repositories.TotalVisitRepository;
 import vn.ptit.repositories.UserInfoRepository;
 import vn.ptit.services.LaptopService;
 import vn.ptit.services.UserService;
+import vn.ptit.utils.Utilities;
 
 @Controller
 public class AdminLaptopController {
@@ -124,17 +124,12 @@ public class AdminLaptopController {
 		// must have
 		model.addAttribute("laptopManufacturer", laptopService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
-		model.addAttribute("totalVisit", totalVisitRepository.findAll().get(0).getTotal());
+		model.addAttribute("totalVisit", totalVisitRepository.count());
 
-		List<ProductReport> listProductReport = new ArrayList<>();
 		List<Bill> hoaDons = hoaDonRepository.findAll();
 		BigDecimal t = new BigDecimal(0);
 		for (Bill hoaDon : hoaDons) {
 			t = t.add(hoaDon.getPayment().getAll_money());
-			for (int i = 0; i < hoaDon.getBoughtLaptops().size(); i++) {
-				listProductReport.add(new ProductReport(hoaDon.getBoughtLaptops().get(i).getLaptop().getName(),
-						hoaDon.getBoughtLaptops().get(i).getAmount()));
-			}
 		}
 
 		model.addAttribute("totalMoney", t);
@@ -143,24 +138,9 @@ public class AdminLaptopController {
 
 		model.addAttribute("totalOrder", hoaDons.size());
 
-		Map<String, Integer> res = listProductReport.stream().collect(
-				Collectors.groupingBy(ProductReport::getNameProduct, Collectors.summingInt(ProductReport::getAmount)));
-		List<ProductReport> listRP = new ArrayList<>();
-		Set<String> key = res.keySet();
-		for (String k : key) {
-			listRP.add(new ProductReport(k, res.get(k)));
-		}
+		List<LaptopStat> laptopStats  = laptopService.stats();
 
-		listRP.sort(new Comparator<ProductReport>() {
-
-			@Override
-			public int compare(ProductReport o1, ProductReport o2) {
-				return o2.getAmount() - o1.getAmount();
-			}
-
-		});
-
-		model.addAttribute("listProductRP", listRP);
+		model.addAttribute("listProductRP", laptopStats);
 
 		return "admin/manage";
 	}
@@ -173,7 +153,7 @@ public class AdminLaptopController {
 		model.addAttribute("laptopManufacturer", laptopService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
 
-		model.addAttribute("laptop", laptopRepository.findAll());
+		model.addAttribute("laptop", laptopRepository.findByStatus(true));
 
 		return "admin/list_laptop";
 	}

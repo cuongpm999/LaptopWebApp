@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +32,21 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
-import vn.ptit.beans.GooglePojo;
-import vn.ptit.beans.GoogleUtils;
-import vn.ptit.beans.RestFB;
+import vn.ptit.entities.Bill;
 import vn.ptit.entities.Laptop;
 import vn.ptit.entities.Role;
 import vn.ptit.entities.UserAttachment;
 import vn.ptit.entities.UserInfo;
+import vn.ptit.repositories.BillRepository;
 import vn.ptit.repositories.LaptopManufacturerRepository;
 import vn.ptit.repositories.LaptopRepository;
 import vn.ptit.repositories.RoleRepository;
 import vn.ptit.repositories.UserInfoRepository;
 import vn.ptit.services.LaptopService;
 import vn.ptit.services.UserService;
+import vn.ptit.utils.GooglePojo;
+import vn.ptit.utils.GoogleUtils;
+import vn.ptit.utils.RestFB;
 
 @Controller
 public class UserController {
@@ -62,6 +65,7 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	LaptopService laptopsService;
+	@Autowired BillRepository billRepository;
 
 	@Autowired
 	private GoogleUtils googleUtils;
@@ -240,8 +244,7 @@ public class UserController {
 
 		Boolean flag = false;
 		for (int i = 0; i < userInfoRepository.findAll().size(); i++) {
-			if ((googlePojo.getEmail() + "@gmail.com")
-					.compareTo(userInfoRepository.findAll().get(i).getUsername()) == 0) {
+			if (googlePojo.getEmail().equalsIgnoreCase(userInfoRepository.findAll().get(i).getUsername())) {
 				flag = true;
 				break;
 			}
@@ -249,8 +252,9 @@ public class UserController {
 
 		if (!flag) {
 			UserInfo userInfo = new UserInfo();
-			userInfo.setUsername(googlePojo.getEmail() + "@gmail.com");
-			userInfo.setEmail(googlePojo.getEmail() + "@gmail.com");
+			userInfo.setUsername(googlePojo.getEmail());
+			userInfo.setEmail(googlePojo.getEmail());
+			userInfo.setFullname(googlePojo.getName());
 			userInfo.setStatus(true);
 			userInfoRepository.save(userInfo);
 		}
@@ -260,6 +264,10 @@ public class UserController {
 				userDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("googleAcc", googlePojo);
+
 		return "redirect:/";
 	}
 
@@ -276,7 +284,7 @@ public class UserController {
 
 		Boolean flag = false;
 		for (int i = 0; i < userInfoRepository.findAll().size(); i++) {
-			if (user.getEmail().compareTo(userInfoRepository.findAll().get(i).getUsername()) == 0) {
+			if (user.getEmail().compareToIgnoreCase(userInfoRepository.findAll().get(i).getUsername()) == 0) {
 				flag = true;
 				break;
 			}
@@ -296,7 +304,26 @@ public class UserController {
 				userDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("faceAcc", user);
+		
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value = { "/my-order" }, method = { RequestMethod.GET })
+	public String myOrder(final ModelMap model, final HttpServletRequest request,
+			final HttpServletResponse response) {
+
+		// must have
+		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
+		UserInfo userInfo = userService.loadUserByUsername(request.getRemoteUser());
+		if(userInfo==null) return "redirect:/";
+		model.addAttribute("userDis", userInfo);
+		List<Bill> bills = billRepository.getBillByUser(userInfo.getId());
+		model.addAttribute("bills", bills);
+		
+		return "myorder";
 	}
 
 }

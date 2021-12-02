@@ -1,6 +1,7 @@
 package vn.ptit.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import vn.ptit.beans.FilterMap;
 import vn.ptit.entities.TotalVisit;
 import vn.ptit.repositories.BannerRepository;
 import vn.ptit.repositories.LaptopManufacturerRepository;
@@ -21,6 +21,7 @@ import vn.ptit.repositories.LaptopRepository;
 import vn.ptit.repositories.TotalVisitRepository;
 import vn.ptit.services.LaptopService;
 import vn.ptit.services.UserService;
+import vn.ptit.utils.FilterMap;
 
 @Controller
 public class HomeController {
@@ -37,7 +38,6 @@ public class HomeController {
 	BannerRepository bannerRepository;
 	@Autowired
 	TotalVisitRepository totalVisitRepository;
-	int cnt = 0;
 
 	@RequestMapping(value = { "/", "/index", "/home" }, method = { RequestMethod.GET })
 	public String index(final ModelMap model, final HttpServletRequest request, final HttpServletResponse response) {
@@ -45,17 +45,9 @@ public class HomeController {
 		// must have
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
-		List<TotalVisit> visits = totalVisitRepository.findAll();
-
-		if (cnt == 0) {
-			cnt = visits.get(0).getTotal();
-		}
-
-		cnt++;
-
-		visits.get(0).setTotal(cnt);
-		totalVisitRepository.saveAll(visits);
-
+		
+		totalVisitRepository.save(new TotalVisit(request.getRemoteAddr(),new Date()));
+		
 		return "index";
 	}
 

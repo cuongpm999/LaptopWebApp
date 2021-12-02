@@ -44,8 +44,6 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
-import vn.ptit.beans.FilterMap;
-import vn.ptit.beans.GooglePojo;
 import vn.ptit.entities.Bill;
 import vn.ptit.entities.BoughtLaptop;
 import vn.ptit.entities.Laptop;
@@ -60,6 +58,8 @@ import vn.ptit.services.LaptopService;
 import vn.ptit.services.PaypalService;
 import vn.ptit.services.ShipmentService;
 import vn.ptit.services.UserService;
+import vn.ptit.utils.FilterMap;
+import vn.ptit.utils.GooglePojo;
 
 @Controller
 public class LaptopController {
@@ -312,12 +312,18 @@ public class LaptopController {
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
 
-		UserInfo userInfo = new UserInfo();
-
 		HttpSession httpSession = request.getSession();
+		Bill bill = new Bill();
+		if (httpSession.getAttribute("bill") != null) {
+			bill = (Bill) httpSession.getAttribute("bill");
+		}
+		else return "redirect:/cart";
+		
+		UserInfo userInfo = new UserInfo();
+		
 		if (httpSession.getAttribute("googleAcc") != null) {
 			GooglePojo googlePojo = (GooglePojo) httpSession.getAttribute("googleAcc");
-			userInfo = userService.loadUserByUsername(googlePojo.getEmail()+"@gmail.com");
+			userInfo = userService.loadUserByUsername(googlePojo.getEmail());
 		} else if (httpSession.getAttribute("faceAcc") != null) {
 			com.restfb.types.User user = (com.restfb.types.User) httpSession.getAttribute("faceAcc");
 			userInfo = userService.loadUserByUsername(user.getEmail());
@@ -325,12 +331,7 @@ public class LaptopController {
 			userInfo = userService.loadUserByUsername(request.getRemoteUser());
 		}
 		userInfo.setAddress((String) httpSession.getAttribute("address"));
-		userInfoRepository.save(userInfo);
 		
-		Bill bill = new Bill();
-		if (httpSession.getAttribute("bill") != null) {
-			bill = (Bill) httpSession.getAttribute("bill");
-		}
 		bill.setUserInfo(userInfo);
 
 		return "shop_checkout";
@@ -384,6 +385,8 @@ public class LaptopController {
 			sendMail(bill);
 
 			billRepository.save(bill);
+			userInfoRepository.save(bill.getUserInfo());
+			
 			model.addAttribute("status", "success");
 			httpSession.setAttribute("giohang", null);
 			httpSession.setAttribute("soLuongMua", 0);
@@ -430,7 +433,8 @@ public class LaptopController {
 				// -------------------------------------------------
 				sendMail(bill);
 				billRepository.save(bill);
-
+				userInfoRepository.save(bill.getUserInfo());
+				
 				model.addAttribute("status", "success");
 				httpSession.setAttribute("giohang", null);
 				httpSession.setAttribute("soLuongMua", 0);

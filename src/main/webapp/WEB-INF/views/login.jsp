@@ -51,7 +51,7 @@
 			<div class="wthree-form">
 				<h2>Vui lòng điền để đăng nhập</h2>
 				<a class="login-google"
-					href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=https://computer-cuongpham.herokuapp.com/login-google&response_type=code
+					href="https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&redirect_uri=https://computer-cuongpham.herokuapp.com/login-google&response_type=code
     &client_id=312227553133-icpkjofc6crhvtgdpje818q7ksvbn5qr.apps.googleusercontent.com&approval_prompt=force">
 					<div class="btn-gg">
 						<div class="btn-gg-img">

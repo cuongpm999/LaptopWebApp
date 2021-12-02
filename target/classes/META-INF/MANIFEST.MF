@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Built-By: Cuong Pham
-Build-Jdk: 16.0.2
+Build-Jdk: 17.0.1
 Implementation-Title: LaptopProject Maven Webapp
 Implementation-Version: 0.0.1-SNAPSHOT
 Implementation-Vendor-Id: vn.ptit

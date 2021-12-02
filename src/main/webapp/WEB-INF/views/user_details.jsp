@@ -62,6 +62,10 @@
 					<table class="table-borderless">
 						<tbody>
 							<tr>
+								<td class="noidung">Tên tài khoản</td>
+								<td class="noidung1">${userDis.username }</td>
+							</tr>
+							<tr>
 								<td class="noidung">Họ và tên</td>
 								<td class="noidung1">${userDis.fullname }</td>
 							</tr>
