@@ -53,7 +53,7 @@ public class RestFB {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-		UserDetails userDetail = new User(user.getId() + user.getName(), "", enabled, accountNonExpired,
+		UserDetails userDetail = new User(user.getEmail(), "", enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, authorities);
 		
 		return userDetail;
