@@ -154,7 +154,9 @@ public class UserController {
 
 		// must have
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
-		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
+		UserInfo userInfo = userService.loadUserByUsername(request.getRemoteUser());
+		if(userInfo==null) return "redirect:/";
+		model.addAttribute("userDis", userInfo);
 
 		return "user_details";
 	}
@@ -164,7 +166,9 @@ public class UserController {
 
 		// must have
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
-		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
+		UserInfo userInfo = userService.loadUserByUsername(request.getRemoteUser());
+		if(userInfo==null) return "redirect:/";
+		model.addAttribute("userDis", userInfo);
 
 		return "edit_user";
 	}

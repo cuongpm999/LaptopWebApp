@@ -1,5 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+
+<!-- sử dụng taglibs của spring để bind-data từ end-point trả về. -->
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<!-- tích hợp jstl vào jsp -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <!--/Head-->
 
 <head>

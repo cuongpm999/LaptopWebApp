@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ExceptionHandling {
 	@ExceptionHandler({ MailException.class })
 	public String errorMail() {
-
-		return "error_mail";
+		return "error/error_mail";
 	}
 }

@@ -1,5 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+
+<!-- sử dụng taglibs của spring để bind-data từ end-point trả về. -->
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<!-- tích hợp jstl vào jsp -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <!--/Head-->
 
 <head>
@@ -23,9 +35,9 @@
                 <div class="error-404 not-found">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 82.7" style="enable-background:new 0 0 200 82.7;" xml:space="preserve">
                         <g id="Calque_1">
-                            <text id="XMLID_3_" transform="matrix(1.2187 0 0 1 13 75.6393)" class="st0 st1">5</text>
+                            <text id="XMLID_3_" transform="matrix(1.2187 0 0 1 13 75.6393)" class="st0 st1">4</text>
                             <text id="XMLID_4_" transform="matrix(1.2187 0 0 1 133.0003 73.6393)"
-                                class="st0 st1">0</text>
+                                class="st0 st1">4</text>
                         </g>
                         <g id="Calque_2">
                             <g>
@@ -53,7 +65,7 @@
                     </svg>
                     <div class="page-content">
                         <div class="page-header mt-3 mb-4">
-                            <h1 class="page-title">Oops! Internal Server Error.</h1>
+                            <h1 class="page-title">Oops! That page can’t be found.</h1>
                         </div>
                         <div class="user-action">
                             <div class="btn btn-signup">

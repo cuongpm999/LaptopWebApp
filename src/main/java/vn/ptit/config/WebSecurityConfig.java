@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.csrf().disable()
         .authorizeRequests()
-        .antMatchers("/*").permitAll()
+//        .antMatchers("/*").permitAll()
         .antMatchers("/cart/checkout/**").hasAnyRole("USER", "ADMIN")
         .antMatchers("/admin/**").hasRole("ADMIN")
 //        .anyRequest().authenticated()

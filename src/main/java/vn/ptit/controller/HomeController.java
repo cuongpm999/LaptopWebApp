@@ -261,7 +261,7 @@ public class HomeController {
 		model.addAttribute("laptopManufacturer", laptopsService.getAllLaptopManufacturer());
 		model.addAttribute("userDis", userService.loadUserByUsername(request.getRemoteUser()));
 
-		return "error_403";
+		return "error/error_403";
 	}
 
 }

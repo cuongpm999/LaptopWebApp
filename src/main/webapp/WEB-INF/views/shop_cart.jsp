@@ -87,62 +87,74 @@
 				</a>
 			</div>
 
-			<table class="table">
-				<thead class="thead-light">
-					<tr>
-						<th style="padding-left: 10%;">Sản phẩm</th>
-						<th class="gia">Giá</th>
-						<th>Số lượng</th>
-						<th class="tc-gia">Thành tiền</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="cart" items="${giohang }">
-						<tr>
-							<td class="tensanpham">
-								<div class="row">
-									<div class="col-md-4">
-										<a href="/item-details/${cart.laptop.seo}"> <img
-											src="${pageContext.request.contextPath}/files_laptops/${cart.laptop.getLaptopAttachments().get(0).getName()}"
-											alt="sanpham" width="100%">
-										</a>
-									</div>
-									<div class="col-md-8">
-										<a href="/item-details/${cart.laptop.seo}"><h5>${cart.laptop.name}
-											</h5></a> <span>Loại sản phẩm:</span>
-										${cart.laptop.laptopManufacturer.name}<br> <span>Bảo
-											hành:</span> 24 tháng
-									</div>
+			<c:choose>
+				<c:when test="${not empty giohang }">
+					<table class="table">
+						<thead class="thead-light">
+							<tr>
+								<th style="padding-left: 10%;">Sản phẩm</th>
+								<th class="gia">Giá</th>
+								<th>Số lượng</th>
+								<th class="tc-gia">Thành tiền</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="cart" items="${giohang }">
+								<tr>
+									<td class="tensanpham">
+										<div class="row">
+											<div class="col-md-4">
+												<a href="/item-details/${cart.laptop.seo}"> <img
+													src="${pageContext.request.contextPath}/files_laptops/${cart.laptop.getLaptopAttachments().get(0).getName()}"
+													alt="sanpham" width="100%">
+												</a>
+											</div>
+											<div class="col-md-8">
+												<a href="/item-details/${cart.laptop.seo}"><h5>${cart.laptop.name}
+													</h5></a> <span>Loại sản phẩm:</span>
+												${cart.laptop.laptopManufacturer.name}<br> <span>Bảo
+													hành:</span> 24 tháng
+											</div>
 
-								</div>
-							</td>
-							<td class="gia"><fmt:formatNumber type="number"
-									maxFractionDigits="3" value="${cart.laptop.price}" /> Đ</td>
-							<td class="so-luong"><input
-								class="form-control text-center nhap-so-luong"
-								value="${cart.amount}" type="number" min=1 style="width: 70px;"
-								id="amount${cart.laptop.seo}"></td>
-							<td class="tc-gia"><fmt:formatNumber type="number"
-									maxFractionDigits="3" value="${cart.amount*cart.laptop.price}" />
-								Đ</td>
-							<td class="hanh-dong"><a href="javascript:void(0);"
-								onclick="Shop.editCart('modalEditItem', '${cart.laptop.seo}')"
-								class="btn btn-primary"><i class="fas fa-edit"></i></a> <a
-								href="javascript:void(0);"
-								onclick="Shop.deleteCart('modalDeleteItem', '${cart.laptop.seo}')"
-								class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
-						</tr>
-					</c:forEach>
+										</div>
+									</td>
+									<td class="gia"><fmt:formatNumber type="number"
+											maxFractionDigits="3" value="${cart.laptop.price}" /> Đ</td>
+									<td class="so-luong"><input
+										class="form-control text-center nhap-so-luong"
+										value="${cart.amount}" type="number" min=1
+										style="width: 70px;" id="amount${cart.laptop.seo}"></td>
+									<td class="tc-gia"><fmt:formatNumber type="number"
+											maxFractionDigits="3"
+											value="${cart.amount*cart.laptop.price}" /> Đ</td>
+									<td class="hanh-dong"><a href="javascript:void(0);"
+										onclick="Shop.editCart('modalEditItem', '${cart.laptop.seo}')"
+										class="btn btn-primary"><i class="fas fa-edit"></i></a> <a
+										href="javascript:void(0);"
+										onclick="Shop.deleteCart('modalDeleteItem', '${cart.laptop.seo}')"
+										class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
+								</tr>
+							</c:forEach>
 
-				</tbody>
-			</table>
-			<div class="card-body" style="text-align: right;">
-				<div class="tongtienthanhtoan">
-					Tổng tiền đơn hàng : <strong><span id="total_value"><fmt:formatNumber
-								type="number" maxFractionDigits="3" value="${tongTien }" /> </span> Đ</strong>
-				</div>
-			</div>
+						</tbody>
+					</table>
+
+
+					<div class="card-body" style="text-align: right;">
+						<div class="tongtienthanhtoan">
+							Tổng tiền đơn hàng : <strong><span id="total_value"><fmt:formatNumber
+										type="number" maxFractionDigits="3" value="${tongTien }" /> </span>
+								Đ</strong>
+						</div>
+					</div>
+				</c:when>
+				<c:when test="${empty giohang }">
+					<div class="no-cart">
+						<img alt="nocart" src="/img/no_cart.png">
+					</div>
+				</c:when>
+			</c:choose>
 
 		</div>
 		<form action="/cart/checkout" method="post">
