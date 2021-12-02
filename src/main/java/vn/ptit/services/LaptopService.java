@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -262,7 +264,7 @@ public class LaptopService {
 	}
 
 	public List<LaptopStat> stats() {
-		String sql = "SELECT tbl_laptop.*, A.SoLuongMua FROM tbl_laptop, (SELECT SUM (amount) AS SoLuongMua, laptop_id FROM tbl_bought_laptop GROUP BY laptop_id ORDER BY SoLuongMua DESC) AS A WHERE tbl_laptop.id = A.laptop_id";
+		String sql = "SELECT tbl_laptop.*, A.SoLuongMua FROM tbl_laptop, (SELECT SUM (amount) AS SoLuongMua, laptop_id FROM tbl_bought_laptop GROUP BY laptop_id) AS A WHERE tbl_laptop.id = A.laptop_id";
 		Query query = entityManager.createNativeQuery(sql);
 		List<Object[]> records = query.getResultList();
 		List<LaptopStat> laptopStats = new ArrayList<>();
@@ -278,6 +280,15 @@ public class LaptopService {
 			laptopStat.setQuantity(Integer.parseInt(records.get(i)[15].toString()));
 			laptopStats.add(laptopStat);
 		}
+		
+		Collections.sort(laptopStats, new Comparator<LaptopStat>() {
+
+			@Override
+			public int compare(LaptopStat o1, LaptopStat o2) {
+				
+				return o2.getQuantity()-o1.getQuantity();
+			}
+		});
 
 		return laptopStats;
 	}

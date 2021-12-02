@@ -2,6 +2,8 @@ package vn.ptit.services;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +12,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
 
+import vn.ptit.entities.LaptopStat;
 import vn.ptit.entities.Shipment;
 import vn.ptit.entities.ShipmentStat;
 import vn.ptit.entities.UserStat;
@@ -32,7 +35,7 @@ public class ShipmentService {
 	}
 	
 	public List<ShipmentStat> stats() {
-		String sql = "SELECT tbl_shipment.*, A.SoLuong FROM tbl_shipment, (SELECT COUNT (id) AS SoLuong, shipment_id FROM tbl_bill GROUP BY shipment_id ORDER BY SoLuong DESC) AS A WHERE tbl_shipment.id = A.shipment_id";
+		String sql = "SELECT tbl_shipment.*, A.SoLuong FROM tbl_shipment, (SELECT COUNT (id) AS SoLuong, shipment_id FROM tbl_bill GROUP BY shipment_id) AS A WHERE tbl_shipment.id = A.shipment_id";
 		Query query = entityManager.createNativeQuery(sql);
 		List<Object[]> records = query.getResultList();
 		List<ShipmentStat> shipmentStats = new ArrayList<>();
@@ -46,6 +49,16 @@ public class ShipmentService {
 			shipmentStat.setQuantity(Integer.parseInt(records.get(i)[5].toString()));
 			shipmentStats.add(shipmentStat);
 		}
+		
+		Collections.sort(shipmentStats, new Comparator<ShipmentStat>() {
+
+			@Override
+			public int compare(ShipmentStat o1, ShipmentStat o2) {
+			
+				return o2.getQuantity()-o1.getQuantity();
+			}
+	
+		});
 
 		return shipmentStats;
 	}

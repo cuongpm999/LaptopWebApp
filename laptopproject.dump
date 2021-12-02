@@ -389,13 +389,34 @@ ALTER SEQUENCE public.tbl_shipment_id_seq OWNED BY public.tbl_shipment.id;
 
 
 --
--- Name: tbl_total_visit; Type: TABLE; Schema: public; Owner: -
+-- Name: tbl_total_visited; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.tbl_total_visit (
+CREATE TABLE public.tbl_total_visited (
     id integer NOT NULL,
-    total integer NOT NULL
+    ip_address character varying(100) NOT NULL,
+    date_visited timestamp without time zone NOT NULL
 );
+
+
+--
+-- Name: tbl_total_visited_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tbl_total_visited_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tbl_total_visited_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tbl_total_visited_id_seq OWNED BY public.tbl_total_visited.id;
 
 
 --
@@ -455,26 +476,6 @@ CREATE TABLE public.tbl_user_role (
     user_id integer NOT NULL,
     role_id integer NOT NULL
 );
-
-
---
--- Name: total_visit_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.total_visit_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: total_visit_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.total_visit_id_seq OWNED BY public.tbl_total_visit.id;
 
 
 --
@@ -575,10 +576,10 @@ ALTER TABLE ONLY public.tbl_shipment ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- Name: tbl_total_visit id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: tbl_total_visited id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.tbl_total_visit ALTER COLUMN id SET DEFAULT nextval('public.total_visit_id_seq'::regclass);
+ALTER TABLE ONLY public.tbl_total_visited ALTER COLUMN id SET DEFAULT nextval('public.tbl_total_visited_id_seq'::regclass);
 
 
 --
@@ -925,6 +926,7 @@ COPY public.tbl_laptop_manufacturer (id, name, seo, status) FROM stdin;
 5	Acer	acer-1603819254389	t
 6	Apple	apple-1603819254390	t
 7	MSI	msi-1603819254391	t
+8	Samsung	samsung-1638366461649	t
 \.
 
 
@@ -964,15 +966,117 @@ COPY public.tbl_shipment (id, name, price, mobile, status) FROM stdin;
 2	Việt Nam Post	50000	+84 4 3537 1552	t
 3	Giao Hàng Nhanh	150000	1800 1201	t
 4	Giao Hàng Tiết Kiệm	90000	1900 6092	t
+5	Ninja Rùa	200000	01234567891	t
 \.
 
 
 --
--- Data for Name: tbl_total_visit; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: tbl_total_visited; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.tbl_total_visit (id, total) FROM stdin;
-1	12850
+COPY public.tbl_total_visited (id, ip_address, date_visited) FROM stdin;
+1	0:0:0:0:0:0:0:1	2021-11-29 10:09:46.128
+4	0:0:0:0:0:0:0:1	2021-11-29 10:12:16.824
+5	0:0:0:0:0:0:0:1	2021-11-29 10:14:37.183
+6	0:0:0:0:0:0:0:1	2021-11-29 10:21:52.315
+7	0:0:0:0:0:0:0:1	2021-11-29 10:52:03.437
+8	0:0:0:0:0:0:0:1	2021-11-29 10:52:41.807
+9	0:0:0:0:0:0:0:1	2021-11-29 10:53:15.245
+10	0:0:0:0:0:0:0:1	2021-11-29 10:53:39.879
+11	0:0:0:0:0:0:0:1	2021-11-29 10:54:44.1
+12	0:0:0:0:0:0:0:1	2021-11-29 10:54:53.876
+13	0:0:0:0:0:0:0:1	2021-11-29 11:06:40.271
+14	0:0:0:0:0:0:0:1	2021-11-29 11:10:48.867
+15	0:0:0:0:0:0:0:1	2021-11-29 11:12:05.915
+16	0:0:0:0:0:0:0:1	2021-11-29 11:12:26.715
+17	0:0:0:0:0:0:0:1	2021-11-29 11:14:22.17
+18	0:0:0:0:0:0:0:1	2021-11-29 11:39:30.2
+19	0:0:0:0:0:0:0:1	2021-11-29 11:40:26.95
+20	127.0.0.1	2021-11-29 11:42:38.405
+21	0:0:0:0:0:0:0:1	2021-11-29 11:48:12.809
+22	0:0:0:0:0:0:0:1	2021-11-29 11:49:45.061
+23	0:0:0:0:0:0:0:1	2021-11-29 11:56:01.524
+24	0:0:0:0:0:0:0:1	2021-11-29 11:56:16.341
+25	0:0:0:0:0:0:0:1	2021-11-29 11:56:47.584
+26	0:0:0:0:0:0:0:1	2021-11-29 11:57:32.616
+27	0:0:0:0:0:0:0:1	2021-11-29 11:59:19.432
+28	0:0:0:0:0:0:0:1	2021-11-29 14:34:10.97
+29	0:0:0:0:0:0:0:1	2021-11-29 14:34:13.598
+30	0:0:0:0:0:0:0:1	2021-11-29 14:34:19.033
+31	0:0:0:0:0:0:0:1	2021-11-29 14:34:47.815
+32	0:0:0:0:0:0:0:1	2021-11-29 14:34:49.509
+33	0:0:0:0:0:0:0:1	2021-11-29 14:34:57.763
+34	0:0:0:0:0:0:0:1	2021-11-29 14:35:33.633
+35	0:0:0:0:0:0:0:1	2021-11-29 23:16:55.642
+36	0:0:0:0:0:0:0:1	2021-11-29 23:17:26.451
+37	0:0:0:0:0:0:0:1	2021-11-29 23:17:35.493
+38	0:0:0:0:0:0:0:1	2021-11-29 23:28:32.195
+39	0:0:0:0:0:0:0:1	2021-11-29 23:28:32.999
+40	0:0:0:0:0:0:0:1	2021-11-29 23:28:42.19
+41	0:0:0:0:0:0:0:1	2021-11-29 23:31:51.909
+42	0:0:0:0:0:0:0:1	2021-11-29 23:32:00.041
+43	0:0:0:0:0:0:0:1	2021-11-29 23:41:44.088
+44	0:0:0:0:0:0:0:1	2021-11-29 23:41:44.735
+45	0:0:0:0:0:0:0:1	2021-11-29 23:41:54.184
+46	0:0:0:0:0:0:0:1	2021-11-29 23:42:54.875
+47	0:0:0:0:0:0:0:1	2021-11-29 23:45:32.915
+48	127.0.0.1	2021-11-29 23:45:41.952
+49	0:0:0:0:0:0:0:1	2021-11-29 23:46:00.473
+50	0:0:0:0:0:0:0:1	2021-11-29 23:46:09.964
+51	127.0.0.1	2021-11-29 23:46:39.019
+52	0:0:0:0:0:0:0:1	2021-11-29 23:46:47.838
+53	0:0:0:0:0:0:0:1	2021-11-29 23:47:15.561
+54	0:0:0:0:0:0:0:1	2021-11-29 23:47:23.943
+55	127.0.0.1	2021-11-29 23:48:43.041
+56	127.0.0.1	2021-11-29 23:48:54.243
+57	0:0:0:0:0:0:0:1	2021-11-29 23:50:22.492
+58	0:0:0:0:0:0:0:1	2021-11-29 23:50:28.604
+59	0:0:0:0:0:0:0:1	2021-11-29 23:50:40.09
+60	0:0:0:0:0:0:0:1	2021-11-29 23:51:12.683
+61	0:0:0:0:0:0:0:1	2021-11-29 23:51:16.647
+62	0:0:0:0:0:0:0:1	2021-11-29 23:51:25.547
+63	0:0:0:0:0:0:0:1	2021-11-29 23:53:31.802
+64	0:0:0:0:0:0:0:1	2021-11-29 23:53:47.724
+65	0:0:0:0:0:0:0:1	2021-11-29 23:54:16.469
+66	0:0:0:0:0:0:0:1	2021-11-29 23:55:39.547
+67	0:0:0:0:0:0:0:1	2021-11-29 23:59:23.505
+68	0:0:0:0:0:0:0:1	2021-11-30 00:00:26.507
+69	0:0:0:0:0:0:0:1	2021-11-30 00:01:20.965
+70	127.0.0.1	2021-11-30 00:02:06.967
+71	127.0.0.1	2021-11-30 00:02:24.144
+72	0:0:0:0:0:0:0:1	2021-11-30 00:02:39.098
+73	127.0.0.1	2021-11-30 00:02:50.241
+74	0:0:0:0:0:0:0:1	2021-11-30 00:03:37.557
+75	0:0:0:0:0:0:0:1	2021-11-30 00:05:39.153
+76	0:0:0:0:0:0:0:1	2021-11-30 00:09:32.355
+77	0:0:0:0:0:0:0:1	2021-11-30 00:09:46.844
+78	0:0:0:0:0:0:0:1	2021-11-30 00:11:00.658
+79	0:0:0:0:0:0:0:1	2021-11-30 00:12:04.171
+80	0:0:0:0:0:0:0:1	2021-11-30 00:12:11.993
+81	0:0:0:0:0:0:0:1	2021-11-30 00:12:20.426
+82	0:0:0:0:0:0:0:1	2021-11-30 00:12:33.565
+83	0:0:0:0:0:0:0:1	2021-11-30 17:29:30.386
+84	0:0:0:0:0:0:0:1	2021-11-30 17:29:44.7
+85	0:0:0:0:0:0:0:1	2021-11-30 17:35:08.91
+86	0:0:0:0:0:0:0:1	2021-11-30 17:37:54.968
+87	0:0:0:0:0:0:0:1	2021-11-30 17:39:19.749
+88	0:0:0:0:0:0:0:1	2021-11-30 17:39:20.887
+89	0:0:0:0:0:0:0:1	2021-11-30 17:44:13.789
+90	0:0:0:0:0:0:0:1	2021-11-30 17:44:25.958
+91	0:0:0:0:0:0:0:1	2021-11-30 17:54:44.472
+92	0:0:0:0:0:0:0:1	2021-11-30 17:55:46.796
+93	0:0:0:0:0:0:0:1	2021-11-30 17:56:06.597
+94	0:0:0:0:0:0:0:1	2021-11-30 23:51:54.454
+95	127.0.0.1	2021-12-01 13:07:22.834
+96	0:0:0:0:0:0:0:1	2021-12-01 14:57:09.938
+97	0:0:0:0:0:0:0:1	2021-12-01 15:04:04.082
+98	0:0:0:0:0:0:0:1	2021-12-01 15:30:03.068
+99	0:0:0:0:0:0:0:1	2021-12-01 15:30:05.368
+100	0:0:0:0:0:0:0:1	2021-12-01 15:30:25.555
+101	0:0:0:0:0:0:0:1	2021-12-01 22:56:45.507
+102	0:0:0:0:0:0:0:1	2021-12-01 22:56:55.224
+103	0:0:0:0:0:0:0:1	2021-12-01 22:57:03.606
+104	0:0:0:0:0:0:0:1	2021-12-02 00:14:52.119
 \.
 
 
@@ -982,9 +1086,9 @@ COPY public.tbl_total_visit (id, total) FROM stdin;
 
 COPY public.tbl_user (id, username, password, fullname, phonenumber, email, status, address) FROM stdin;
 37	user2	$2a$10$lQeZyxazcpGg5ZLu0XoIvOUaxTluX5wZuZIYLAcwlug6OxS4pWvBy	Lê Hưng	0123456789	phamcuongth2000@gmail.com	t	Hưng Yên
-36	user1	$2a$10$qF0SpLHeSbfrdGcS09S.tOB.IrqTAgUpoMj3YLQW8CV.xGhJrTCBW	Thu Hà	0123456789	phamcuongth2000@gmail.com	t	Hà Nội
+36	user1	$2a$10$qF0SpLHeSbfrdGcS09S.tOB.IrqTAgUpoMj3YLQW8CV.xGhJrTCBW	Thu Hà	0123456789	phamcuongth2000@gmail.com	t	Hải Dương
+38	user3	$2a$10$c3fx9YMPVyDs8JFuFUQfe.DjtYvfOZtOloeE1AqBvqhY29kD0HVIa	Nguyên Trung	0123456789	phamcuongth2000@gmail.com	f	Hà Nội
 1	admin	$2a$10$2yiae9.Vt.69/1Vp73SwGuH81B/XbzVq1LmevpOD6CmqhnPwawu1W	Cường Phạm	0961656067	phamcuongth2000@gmail.com	t	Hải Dương
-38	user3	$2a$10$c3fx9YMPVyDs8JFuFUQfe.DjtYvfOZtOloeE1AqBvqhY29kD0HVIa	Nguyên Trung	0123456789	phamcuongth2000@gmail.com	t	Hà Nội
 \.
 
 
@@ -1064,7 +1168,7 @@ SELECT pg_catalog.setval('public.laptop_id_seq', 227, true);
 -- Name: laptop_manufacturer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.laptop_manufacturer_id_seq', 1, false);
+SELECT pg_catalog.setval('public.laptop_manufacturer_id_seq', 8, true);
 
 
 --
@@ -1099,7 +1203,14 @@ SELECT pg_catalog.setval('public.tbl_payment_id_seq', 10, true);
 -- Name: tbl_shipment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.tbl_shipment_id_seq', 4, true);
+SELECT pg_catalog.setval('public.tbl_shipment_id_seq', 5, true);
+
+
+--
+-- Name: tbl_total_visited_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.tbl_total_visited_id_seq', 104, true);
 
 
 --
@@ -1107,13 +1218,6 @@ SELECT pg_catalog.setval('public.tbl_shipment_id_seq', 4, true);
 --
 
 SELECT pg_catalog.setval('public.tbl_user_attachment_id_seq', 51, true);
-
-
---
--- Name: total_visit_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.total_visit_id_seq', 1, false);
 
 
 --
@@ -1212,19 +1316,19 @@ ALTER TABLE ONLY public.tbl_shipment
 
 
 --
+-- Name: tbl_total_visited tbl_total_visited_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tbl_total_visited
+    ADD CONSTRAINT tbl_total_visited_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tbl_user_attachment tbl_user_attachment_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tbl_user_attachment
     ADD CONSTRAINT tbl_user_attachment_pkey PRIMARY KEY (id);
-
-
---
--- Name: tbl_total_visit total_visit_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.tbl_total_visit
-    ADD CONSTRAINT total_visit_pkey PRIMARY KEY (id);
 
 
 --
