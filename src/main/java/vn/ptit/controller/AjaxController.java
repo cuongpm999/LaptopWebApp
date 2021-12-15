@@ -176,32 +176,6 @@ public class AjaxController {
 		
 		return ResponseEntity.ok(new AjaxResponse(69, data));
 	}
-
-	@GetMapping(value = "/report/chart")
-	public ResponseEntity<AjaxResponse> testData(final ModelMap model,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		BigDecimal data[]= new BigDecimal[6];
-		String label[] = new String[6];
-		
-		label[0]=ReportUtils.getStringMonth5();
-		label[1]=ReportUtils.getStringMonth4();
-		label[2]=ReportUtils.getStringMonth3();
-		label[3]=ReportUtils.getStringMonth2();
-		label[4]=ReportUtils.getStringMonth1();
-		label[5]=ReportUtils.getStringMonth();
-		
-		List<Bill> bills = hoaDonRepository.findAll();
-		
-		data[0]=ReportUtils.getTotalMoneyMoth5(bills);
-		data[1]=ReportUtils.getTotalMoneyMoth4(bills);
-		data[2]=ReportUtils.getTotalMoneyMoth3(bills);
-		data[3]=ReportUtils.getTotalMoneyMoth2(bills);
-		data[4]=ReportUtils.getTotalMoneyMoth1(bills);
-		data[5]=ReportUtils.getTotalMoneyMoth(bills);
-		
-		ChartReport x= new ChartReport(label, data);
-		return ResponseEntity.ok(new AjaxResponse(333, x));
-	}
 	
 	@GetMapping(value = "/data/autocomplete")
 	public List<String> testDataAutoComplete(

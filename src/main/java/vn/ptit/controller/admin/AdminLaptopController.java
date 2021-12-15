@@ -42,6 +42,8 @@ import vn.ptit.repositories.TotalVisitRepository;
 import vn.ptit.repositories.UserInfoRepository;
 import vn.ptit.services.LaptopService;
 import vn.ptit.services.UserService;
+import vn.ptit.utils.ChartReport;
+import vn.ptit.utils.ReportUtils;
 import vn.ptit.utils.Utilities;
 
 @Controller
@@ -141,6 +143,28 @@ public class AdminLaptopController {
 		List<LaptopStat> laptopStats  = laptopService.stats();
 
 		model.addAttribute("listProductRP", laptopStats);
+		
+		BigDecimal data[]= new BigDecimal[6];
+		String label[] = new String[6];
+		
+		label[0]=ReportUtils.getStringMonth5();
+		label[1]=ReportUtils.getStringMonth4();
+		label[2]=ReportUtils.getStringMonth3();
+		label[3]=ReportUtils.getStringMonth2();
+		label[4]=ReportUtils.getStringMonth1();
+		label[5]=ReportUtils.getStringMonth();
+		
+		List<Bill> bills = hoaDonRepository.findAll();
+		
+		data[0]=ReportUtils.getTotalMoneyMoth5(bills);
+		data[1]=ReportUtils.getTotalMoneyMoth4(bills);
+		data[2]=ReportUtils.getTotalMoneyMoth3(bills);
+		data[3]=ReportUtils.getTotalMoneyMoth2(bills);
+		data[4]=ReportUtils.getTotalMoneyMoth1(bills);
+		data[5]=ReportUtils.getTotalMoneyMoth(bills);
+		
+		ChartReport chartReport= new ChartReport(label, data);
+		model.addAttribute("chartReport",chartReport);
 
 		return "admin/manage";
 	}
