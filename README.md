@@ -8,6 +8,7 @@ Demo web thương mại điện tử, sản phẩm là laptop, gồm đầy đ�
 ## Công nghệ
 - Java 8
 - Spring boot
+- Spring MVC
 - Spring Mail
 - Spring Sercuriry
 - Spring JPA
