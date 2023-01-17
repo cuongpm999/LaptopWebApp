@@ -20,4 +20,3 @@ Demo web thương mại điện tử, sản phẩm là laptop, gồm đầy đ�
 - Login Google, Facebook
 - AJAX
 - Hibernate
-- Chart.js
